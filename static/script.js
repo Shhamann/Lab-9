@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }).then(response => response.json())
           .then(() => {
               workoutForm.reset();
-              loadWorkouts(); // Это вызовет и loadTotalSteps()
+              loadWorkouts(); 
           })
           .catch(error => console.error("Error adding workout:", error));
     });
@@ -52,10 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Удаление пользователя
     window.deleteWorkout = (id) => {
         fetch(`/api/workouts/${id}`, { method: "DELETE" })
-            .then(() => loadWorkouts()) // Это вызовет и loadTotalSteps()
+            .then(() => loadWorkouts()) 
             .catch(error => console.error("Error deleting workout:", error));
     };
 
+    // Удаление всех пользователей
     document.getElementById('deleteAllButton').addEventListener('click', function() {
     fetch('/api/workouts', {
         method: 'DELETE'
@@ -70,6 +71,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     });
 
-    // Загрузка пользователей и общей суммы при загрузке страницы
     loadWorkouts();
 });
