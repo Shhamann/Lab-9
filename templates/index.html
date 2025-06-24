@@ -1,35 +1,23 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-    <title>Best store!</title>
-    <script type="text/javascript" src="/static/update.js"></script>
-    <link href="static/store.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask + SQLAlchemy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-    <h1>Furniture store:</h1>
-    <h3>Add new product:</h3>
-    <form>
-        <div>
-            <input type="text" name="prod_name" id="prod_name">
-            <label for="prod_name">Product name</label>
-        </div>
-        <div>
-            <input type="number" name="price" id="price">
-            <label for="price">Price (rub.)</label>
-        </div>
-        <button onClick="addProduct()">Add</button>
+    <h1>Тренировки</h1>
+    <form id="workoutForm">
+        <input type="text" id="steps" placeholder="Шаги" required>
+        <input type="text" id="date" placeholder="Дата" required>
+        <button type="submit">Добавить</button>
     </form>
-    <ul>
-        {% for product in products_list %}
-        <li>
-            <div>
-                <div>{{ product['prod_name'] }}</div>
-                <div>{{ product['price'] }} rub.</div>
-                <input value="{{product['id']}}" onChange="updateProd(this)" name="in_stock" type="checkbox" {% if product.in_stock %} checked {% endif %}>
-                <label for="in_stock">In stock</label>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
+    <div class="total-steps">
+        Сумма шагов: <span id="totalSteps">0</span>
+    </div>
+    <ul id="workoutList"></ul>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
