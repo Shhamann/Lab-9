@@ -65,5 +65,11 @@ def get_total_steps():
     total = db.session.query(func.sum(Workout.steps)).scalar() 
     return jsonify({"total_steps": total if total else 0})
 
+@app.route('/api/workouts', methods=['DELETE'])
+def delete_all_workouts():
+    db.session.query(Workout).delete()
+    db.session.commit()
+    return jsonify({'message': 'All workout deleted successfully'}), 200
+
 if __name__ == "__main__":
     app.run(debug=True)

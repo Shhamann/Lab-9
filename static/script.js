@@ -56,6 +56,20 @@ document.addEventListener("DOMContentLoaded", () => {
             .catch(error => console.error("Error deleting workout:", error));
     };
 
+    document.getElementById('deleteAllButton').addEventListener('click', function() {
+    fetch('/api/workouts', {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Deleted:', data.message);
+        loadWorkouts(); 
+    })
+    .catch(error => {
+        console.error('Error deleting workouts:', error);
+    });
+    });
+
     // Загрузка пользователей и общей суммы при загрузке страницы
     loadWorkouts();
 });
