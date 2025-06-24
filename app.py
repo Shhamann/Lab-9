@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
+from datetime import datetime
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///workouts.db"
@@ -13,10 +14,10 @@ db = SQLAlchemy(app)
 class Workout(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     steps = db.Column(db.Integer, nullable=False)
-    date = db.Column(db.String(100), unique=True, nullable=False)
+    date = db.Column(db.Date, nullable=False)
 
     def to_dict(self):
-        return {"id": self.id, "steps": self.steps, "date": self.date}
+        return {"id": self.id, "steps": self.steps, "date": self.date.isoformat()}
 
 
 # Создание базы данных
@@ -41,7 +42,8 @@ def get_workouts():
 @app.route("/api/workouts", methods=["POST"])
 def add_workout():
     data = request.get_json()
-    new_workout = Workout(steps=data["steps"], date=data["date"])
+    date_obj = datetime.strptime(data["date"], "%Y-%m-%d").date()
+    new_workout = Workout(steps=data["steps"], date=date_obj)
     db.session.add(new_workout)
     db.session.commit()
     return jsonify(new_workout.to_dict()), 201
